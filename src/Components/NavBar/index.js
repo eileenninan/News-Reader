@@ -20,6 +20,7 @@ Modal.setAppElement('#root')
 const NavBar = ({ setData }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [filters, setFilters] = useState([""])
+    const [suggestedOption, setSuggestedOption] = useState([])
     const addFilter = () => {
         setFilters([...filters, ""])
     }
@@ -45,15 +46,12 @@ const NavBar = ({ setData }) => {
                 params: option
             })
             console.log(res);
-            console.log(option);
+            let formated = res.data.map((item) => item.category);
+            setSuggestedOption(formated)
+            console.log(formated,'formated');
         }
         else if(option === 'Sentiment'){
-            let res = await axios({
-                method: 'get',
-                params: option
-            })
-            console.log(res);
-            console.log(option);
+            setSuggestedOption(['Positive', 'Negative', 'Neutral'])
         }
         else if(option === 'Sources'){
             let res = await axios({
@@ -62,7 +60,9 @@ const NavBar = ({ setData }) => {
                 params: option
             })
             console.log(res);
-            console.log(option);
+            let formated = res.data.sources.map((item) => item.name);
+            setSuggestedOption(formated)
+            console.log(formated, 'formated');
         }
     }
     const handleCloseModal = () => {
@@ -103,7 +103,7 @@ const NavBar = ({ setData }) => {
                                         <span className="text-three">
                                             Is
                                         </span>
-                                        <input type="text" placeholder="Sentiment" className="sentiment-box"/>
+                                        <input type="select" placeholder="Sentiment" className="sentiment-box" value ={suggestedOption}/>
                                     </div>
                                 )
                             })

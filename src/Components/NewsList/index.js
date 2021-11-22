@@ -20,13 +20,14 @@ const NewsList = ({ data, setSelectedArticle, selectedArticle, setData }) => {
         console.log(range);
         setData(res.data.result.data)
     }
+    console.log(data, 'data');
     return (
         <div className="news-list">
            <div> <DateRangePicker placeholder="Select Date Range" className="date-picker" onChange={(v) => handleChange(v)}/></div>
             <div>
                 {
                     data.length > 0 && data.map((article, index) => {
-                        let date = moment(article?.data).format('MMMM Do, YYYY');  
+                        let date = moment(article?.date).format('MMMM Do, YYYY');  
                         return (
                             <div key={index} className="article-card" onClick={ () => setSelectedArticle(article)}>
                                 <span className="article-card-date">{date}</span>
