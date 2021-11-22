@@ -1,0 +1,123 @@
+.nav-bar {
+    display: flex;
+    padding: 1rem 3rem;
+    box-shadow: 0 2px 5px rgb(218, 218, 218);
+}
+
+.nav-bar .heading {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 15rem;
+    width: 100%;
+    
+}
+
+.nav-bar .heading .search{
+    display: flex;
+    justify-content: flex-start;
+    width: 90%;
+}
+
+.nav-bar .text-one {
+    font-size: 2rem;
+    color: royalblue;
+    font-weight: bold;
+}
+
+.nav-bar .text-two {
+    font-size: 2rem;
+    color: slategray;
+    font-weight: bold;
+}
+
+.nav-bar .heading .search-box {
+    border-radius: 5px;
+    border-width: 1px;
+    background: none;
+    width: 25rem;
+    padding: 0.5rem;
+    text-align: start;
+    text-decoration: none;
+    border: solid 1px rgb(226, 225, 225);
+    color: rgb(226, 225, 225);
+    margin: 5px;
+}
+
+button {
+    margin: 5px 10px;
+    background: none;
+    border-color: royalblue;
+    width: 10rem;
+    padding: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border-style: solid;    
+}
+
+.modal-heading {
+   display: flex;
+   justify-content: space-between;
+   padding: 10px;
+}
+
+.close-button {
+    color: rgb(165, 164, 164);
+}
+
+.text-three {
+    padding: 0.5rem;
+    color: lightgrey;
+}
+
+.sentiment-box {
+    border-radius: 5px;
+    border-width: 1px;
+    background: none;
+    width: 25rem;
+    padding: 0.5rem;
+    text-align: start;
+    text-decoration: none;
+    border: solid 1px rgb(226, 225, 225);
+    color: rgb(226, 225, 225);
+    margin-left: 10px;
+}
+
+.btn{
+    margin: 5px 10px;
+    background: none;
+    border-color: royalblue;
+    width: 10rem;
+    padding: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border-style: solid;
+    color: black;
+}
+
+.select-btn{
+    margin: 5px 5px;
+    background: none;
+    padding: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}
+
+.cancel-button {
+    border: none;
+    color: grey;
+}
+
+.show-button {
+    border-radius: 5px;
+    background: rgb(40, 87, 230);
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
