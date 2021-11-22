@@ -1,8 +1,9 @@
 import "./index.css";
 import React, { useState } from "react";
 import Modal from 'react-modal';
-import { Button, Dropdown, Divider } from 'rsuite';
+import { Button, Divider } from 'rsuite';
 import axios from "axios";
+import { Dropdown } from 'semantic-ui-react'
 
 const customStyles = {
     content: {
@@ -15,12 +16,20 @@ const customStyles = {
     },
   };
 
+const options = [
+    { key: 'Category', text: 'Category', value: 'Category' },
+    { key: 'Sentiment', text: 'Sentiment', value: 'Sentiment' },
+    { key: 'Sources', text: 'Sources', value: 'Sources' },
+]
+
 Modal.setAppElement('#root')
 
 const NavBar = ({ setData }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [filters, setFilters] = useState([""])
     const [suggestedOption, setSuggestedOption] = useState([])
+    const [value, setValue] = useState("")
+    const [selectedValue,setSelectedValues]=useState([])
     const addFilter = () => {
         setFilters([...filters, ""])
     }
@@ -36,9 +45,10 @@ const NavBar = ({ setData }) => {
         console.log(val);
         setData(res.data.result.data)
     }
-    const handleSelect = async(eventKey) => {
-        console.log(eventKey);
-        let option = eventKey;
+    const handleSelect = async(key) => {
+        console.log(key, 'key');
+        let option = key.target.innerText;
+        setValue(option)
         if(option === 'Category'){
             let res = await axios({
                 method: 'get',
@@ -46,12 +56,16 @@ const NavBar = ({ setData }) => {
                 params: option
             })
             console.log(res);
-            let formated = res.data.map((item) => item.category);
+            let formated = res.data.map((item) => ({key:item.category ,text:item.category, value:item.iptc_code, type:"Category",iptc_code:item.iptc_code}));
             setSuggestedOption(formated)
             console.log(formated,'formated');
         }
         else if(option === 'Sentiment'){
-            setSuggestedOption(['Positive', 'Negative', 'Neutral'])
+            setSuggestedOption([
+                {key:'Positive', value: 'Positive', text: 'Positive', type:"Sentiment"},
+                {key:'Negative', value: 'Negative', text: 'Negative', type:"Sentiment"},
+                {key:'Neutral', value: 'Neutral', text: 'Neutral', type:"Sentiment"}
+            ])
         }
         else if(option === 'Sources'){
             let res = await axios({
@@ -60,7 +74,7 @@ const NavBar = ({ setData }) => {
                 params: option
             })
             console.log(res);
-            let formated = res.data.sources.map((item) => item.name);
+            let formated = res.data.sources.map((item) => ({key:item.name ,text:item.name, value:item.name, type:"Sources",id:item.id}));
             setSuggestedOption(formated)
             console.log(formated, 'formated');
         }
@@ -68,6 +82,37 @@ const NavBar = ({ setData }) => {
     const handleCloseModal = () => {
         setFilters(["SearchFilter"]);
         setModalIsOpen(false);
+    }
+    const handleSubmit = async() => {
+        console.log("val",value);
+        console.log("sel",selectedValue);
+        if(value==="Category"){
+            let res = await axios({
+                method: 'get',
+                url: 'https://get.scrapehero.com/news-api/news/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE',
+                params: {category_id:selectedValue}
+            })
+            console.log("response",res);
+            handleCloseModal()
+        }else if(value ==="Sentiment"){
+            let res = await axios({
+                method: 'get',
+                url: 'https://get.scrapehero.com/news-api/news/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE',
+                params: {sentiment:selectedValue}
+            })
+            console.log("ress",res)
+            setData(res.data.result.data)
+            handleCloseModal()
+            console.log("response",res);
+        } else if (value==="Sources"){
+            let res = await axios({
+                method: 'get',
+                url: 'https://get.scrapehero.com/news-api/news/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE',
+                params: {source_id:selectedValue}
+            })
+            console.log("response",res);
+            handleCloseModal()
+        }
     }
     return (
         <header className="nav-bar">
@@ -94,16 +139,12 @@ const NavBar = ({ setData }) => {
                         {
                             filters.map((filter, key) => {
                                 return (
-                                    <div key={key}>
-                                        <Dropdown className="select-btn" title="Search Filter" appearance="ghost" onSelect={(eventKey) => handleSelect(eventKey)}>
-                                            <Dropdown.Item eventKey="Category">Category</Dropdown.Item>
-                                            <Dropdown.Item eventKey="Sentiment">Sentiment</Dropdown.Item>
-                                            <Dropdown.Item eventKey="Sources">Sources</Dropdown.Item>
-                                        </Dropdown>
-                                        <span className="text-three">
+                                    <div key={key} style={{display:"flex",width:"700px"}}>
+                                        <Dropdown className="select-btn" placeholder='Search Filter' fluid selection options={options} onChange={(key) => handleSelect(key)} name="Search" value={value} style={{marginTop:"24px"}}/>
+                                        <span className="text-three" style={{marginTop:"22px"}}>
                                             Is
                                         </span>
-                                        <input type="select" placeholder="Sentiment" className="sentiment-box" value ={suggestedOption}/>
+                                        <Dropdown className="sentiment-box" placeholder="Sentiment" fluid selection options={suggestedOption} onChange={(key) => setSelectedValues(key.target.innerText)} value={selectedValue } style={{height:"30px", marginTop:"23px"}} />
                                     </div>
                                 )
                             })
@@ -111,7 +152,7 @@ const NavBar = ({ setData }) => {
                         <Divider />
                         <div className="modal-footer">
                             <button onClick={() => handleCloseModal()} className="cancel-button">Cancel</button>
-                            <button className="show-button">Show Results</button>
+                            <button className="show-button" onClick={handleSubmit}>Show Results</button>
                         </div>
                     </Modal>
                 </div>

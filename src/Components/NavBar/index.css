@@ -74,7 +74,6 @@ button {
     border-radius: 5px;
     border-width: 1px;
     background: none;
-    width: 25rem;
     padding: 0.5rem;
     text-align: start;
     text-decoration: none;
@@ -97,8 +96,9 @@ button {
 }
 
 .select-btn{
-    margin: 5px 5px;
+    margin: 10px 5px;
     background: none;
+    width: 1rem;
     padding: 0.5rem;
     text-align: center;
     text-decoration: none;

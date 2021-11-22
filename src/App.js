@@ -6,6 +6,8 @@ import NewsList from './Components/NewsList';
 import NewsArticle from './Components/NewsArticle';
 import { Route, Switch } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
+import 'semantic-ui-css/semantic.min.css'
+import "rsuite/dist/rsuite.min.css";
 
 function App() {
   const [data, setData] = useState([]);

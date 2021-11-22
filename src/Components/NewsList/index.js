@@ -1,6 +1,5 @@
 import "./index.css";
 import { DateRangePicker } from 'rsuite';
-import "rsuite/dist/rsuite.min.css";
 import moment from "moment";
 import axios from "axios";
 
